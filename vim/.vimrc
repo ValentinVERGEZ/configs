@@ -45,18 +45,18 @@ endif
 map g} :cs find 3 <C-R>=expand("<cword>")<CR><CR>
 
 function! UpdateTags()
-	silent!ctags -R --languages=C,C++ --c++-kinds=+p --fields=+iaStm --extra=+q ./
+	!ctags -R --languages=C,C++ --c++-kinds=+p --fields=+iaStm --extra=+q+f ./
 endfunction
 
 function! UpdateCscope()
-	silent!cscope -R -b
+	!cscope -R -b
 	cs kill -1
 	cs add cscope.out
 endfunction
 
 " Ctags/cscope update
-" noremap <F8> :echo "Ctags/Cscope update"<CR>:call UpdateTags()<CR>:call UpdateCscope()<CR>:echo "DONE"<CR>:redraw!<CR>
-noremap <silent> <F8> :call UpdateTags()<CR>:call UpdateCscope()<CR>:redraw!<CR>
+noremap <F8> :!echo "Ctags/Cscope update"<CR>:call UpdateTags()<CR>:call UpdateCscope()<CR>:!echo "DONE"<CR>:redraw!<CR>
+" noremap <silent> <F8> :call UpdateTags()<CR>:call UpdateCscope()<CR>:redraw!<CR>
 
 " NERDTree
 noremap <silent> <F9> :NERDTreeToggle<CR>
@@ -174,11 +174,11 @@ set nostartofline
 set ruler
 
 " Always display the status line, even if only one window is displayed
-" set laststatus=2
+set laststatus=2
 
 " Instead of failing a command because of unsaved changes, instead raise a
 " dialogue asking if you wish to save changed files.
-" set confirm
+set confirm
 
 " Use visual bell instead of beeping when doing something wrong
 set visualbell
@@ -193,10 +193,10 @@ set visualbell
 
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
-" set cmdheight=2
+set cmdheight=2
 
 " Display line numbers on the left
-" set number
+set number
 
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
@@ -209,14 +209,24 @@ set notimeout ttimeout ttimeoutlen=200
 
 " Indentation settings for using 2 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-" set shiftwidth=2
-" set softtabstop=2
+" set shiftwidth=4
+" set softtabstop=4
 " set expandtab
 
 " Indentation settings for using hard tabs for indent. Display tabs as
 " two characters wide.
-"set shiftwidth=2
-"set tabstop=2
+set shiftwidth=2
+set tabstop=2
+
+set noexpandtab
+" set copyindent
+" set preserveindent
+set softtabstop=0
+set shiftwidth=4
+set tabstop=4
+
+set listchars=tab:▸\ ,eol:¬
+set list
 
 "------------------------------------------------------------
 " Mappings {{{1
