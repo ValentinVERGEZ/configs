@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/home/valentinv/.oh-my-zsh
+export ZSH=${HOME}/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -101,15 +101,62 @@ function sudo() {
     fi
 }
 
-## Proxy
-export http_proxy="proxy.polytech-lille.fr:3128"
-export https_proxy="proxy.polytech-lille.fr:3128"
-export HTTP_PROXY=$http_proxy
-export HTTPS_PROXY=$https_proxy
+if [[ $(hostname) != "vve-T1700" ]]; then
+	echo 	"Not stormshield shell"
+	echo "====================="
 
-## ROS
-source /home/valentinv/catkin_ws/devel/setup.zsh
-source /opt/ros/jade/setup.zsh
+	## Proxy
+	export http_proxy="proxy.polytech-lille.fr:3128"
+	export https_proxy="proxy.polytech-lille.fr:3128"
+	export HTTP_PROXY=$http_proxy
+	export HTTPS_PROXY=$https_proxy
 
-## Gazebo
-source /usr/share/gazebo/setup.sh
+	## ROS
+	source /home/valentinv/catkin_ws/devel/setup.zsh
+	source /opt/ros/jade/setup.zsh
+
+	## Gazebo
+	source /usr/share/gazebo/setup.sh
+else
+	echo -e "\033[36m#  / ___)(_  _)/  \\ / ___)/ )( \\"
+	echo -e "#  \\___ \\  )( (  O )\\___ \\) __ ("
+	echo -e "#  (____/ (__) \\__/ (____/\\_)(_/\033[0m"
+	# echo -e "================================"
+	# cat ${HOME}/scripts/stosh_logo.txt
+fi
+
+# Svn.sh
+export PATH=$PATH:~/bin
+
+# Upd
+source ~/scripts/upd.sh
+
+# PSnext
+source ~/scripts/psnext.sh
+
+# Build machines relative
+source ~/scripts/buildmachines.sh
+
+# Start ssh-agent
+source ~/scripts/ssh-agent.sh
+
+# Navigate
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../../"
+alias .....="cd ../../../../"
+alias ......="cd ../../../../../"
+alias .......="cd ../../../../../../"
+
+# Anti mouffle
+alias sl="sl -e -a"
+
+# Git switch
+git() {
+  if [[ $@ == "switch" ]]; then
+	command ~/scripts/switch.sh
+  else
+	command git "$@"
+  fi
+}
+

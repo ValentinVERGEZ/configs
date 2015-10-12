@@ -32,31 +32,55 @@ highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
 " Show trailing whitespace:
 match ExtraWhitespace /\s\+$/
-match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
+" Custom Highlighting tags
+function! UpdateHighlightingFile()
+  silent exec "!echo -n 'syntax keyword Type '> types.vim"
+  silent exec "!ctags -R --languages=C,C++ --c++-kinds=cgstu  -o- ./ | cut -f1 | xargs echo >> types.vim"
+  "	exe 'so ' . 'types.vim'
+  "	syntax sync fromstart
+endfunction
+
+" load the types.vim highlighting file, if it exists
+autocmd BufRead,BufNewFile *.[ch] if filereadable('types.vim')
+autocmd BufRead,BufNewFile *.[ch]   exe 'so ' . 'types.vim'
+autocmd BufRead,BufNewFile *.[ch] endif
+
 " Cscope handling
 if filereadable("cscope.out")
-	cs add cscope.out
+  cs add cscope.out
 endif
 map g} :cs find 3 <C-R>=expand("<cword>")<CR><CR>
 
-function! UpdateTags()
-	!ctags -R --languages=C,C++ --c++-kinds=+p --fields=+iaStm --extra=+q+f ./
+function! UpdateCscope()
+  silent exec "!cscope -R -b"
+  cs kill -1
+  cs add cscope.out
 endfunction
 
-function! UpdateCscope()
-	!cscope -R -b
-	cs kill -1
-	cs add cscope.out
+function! UpdateTags()
+  silent exec "!ctags -R --languages=C,C++ --c++-kinds=+p --fields=+iaStm --extra=+q+f ./"
+endfunction
+
+function! UpdateCall()
+	silent exec "!clear"
+	let uc_startTime = system("date +'%s'")
+	silent exec '!echo -e "\nUpdate CTags/CScope ..."'
+	silent call UpdateTags()
+	silent call UpdateCscope()
+	silent call UpdateHighlightingFile()
+	silent redraw!
+	let uc_totalTime = system("date +'%s'") - uc_startTime
+	let result = "CTags/CScope UPDATED (" . uc_totalTime . "sec)"
+	echo result
 endfunction
 
 " Ctags/cscope update
-noremap <F8> :!echo "Ctags/Cscope update"<CR>:call UpdateTags()<CR>:call UpdateCscope()<CR>:!echo "DONE"<CR>:redraw!<CR>
-" noremap <silent> <F8> :call UpdateTags()<CR>:call UpdateCscope()<CR>:redraw!<CR>
+noremap <silent> <F8> :call UpdateCall()<CR>
 
 " NERDTree
 noremap <silent> <F9> :NERDTreeToggle<CR>
@@ -85,7 +109,7 @@ noremap <silent> <F5> :make -j3<CR>
 noremap <silent> <F6> :cprevious<CR>
 noremap <silent> <F7> :cnext<CR>
 
-" Use <F11> to toggle between 'paste' and 'nopaste'
+" Use <F3> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F3>
 
 let g:load_doxygen_syntax=1
@@ -189,7 +213,7 @@ set visualbell
 " set t_vb=
 
 " Enable use of the mouse for all modes
-" set mouse=a
+set mouse=a
 
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
@@ -209,24 +233,18 @@ set notimeout ttimeout ttimeoutlen=200
 
 " Indentation settings for using 2 spaces instead of tabs.
 " Do not change 'tabstop' from its default value of 8 with this setup.
-" set shiftwidth=4
-" set softtabstop=4
+" set shiftwidth=2
+" set softtabstop=2
 " set expandtab
 
 " Indentation settings for using hard tabs for indent. Display tabs as
 " two characters wide.
-set shiftwidth=2
-set tabstop=2
-
 set noexpandtab
 " set copyindent
 " set preserveindent
 set softtabstop=0
 set shiftwidth=4
 set tabstop=4
-
-set listchars=tab:▸\ ,eol:¬
-set list
 
 "------------------------------------------------------------
 " Mappings {{{1
@@ -243,5 +261,6 @@ nnoremap <C-L> :nohl<CR><C-L>
 
 
 "------------------------------------------------------------
-
-" highlight Normal ctermfg=grey ctermbg=black
+" Display hidden characters
+set listchars=tab:▸\ ,eol:¬
+set list
