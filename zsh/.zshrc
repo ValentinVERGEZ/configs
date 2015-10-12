@@ -101,9 +101,28 @@ function sudo() {
     fi
 }
 
-if [[ $(hostname) != "vve-T1700" ]]; then
-	echo 	"Not stormshield shell"
-	echo "====================="
+if [[ $(hostname) == "DesktopPC" ]]; then
+
+	# Laptop and desktop
+	echo ""
+	echo 	"  (‾⌣‾)   ᶠᶸᶜᵏ ♥ ᵧₒᵤ "
+	# echo 	"░░░░░░░░░░░░░░░░░░░░░"
+
+
+	## ROS
+	# source ${HOME}/Projets/catkin_ws/devel/setup.zsh
+	source ${HOME}/catkin_tests_ws/devel/setup.zsh
+	source /opt/ros/jade/setup.zsh
+
+	## Gazebo
+	source /usr/share/gazebo/setup.sh
+
+elif [[ $(hostname) == "d336" ]]; then
+
+	# D336
+	echo ""
+	echo 	" ╭∩╮（︶︿︶）╭∩╮ ᶠᶸᶜᵏ♥ᵧₒᵤ "
+	# echo 	'"""""""""""""""""""""""""""'
 
 	## Proxy
 	export http_proxy="proxy.polytech-lille.fr:3128"
@@ -112,30 +131,47 @@ if [[ $(hostname) != "vve-T1700" ]]; then
 	export HTTPS_PROXY=$https_proxy
 
 	## ROS
-	source /home/valentinv/catkin_ws/devel/setup.zsh
+	source ${HOME}/catkin_ws/devel/setup.zsh
 	source /opt/ros/jade/setup.zsh
 
 	## Gazebo
 	source /usr/share/gazebo/setup.sh
-else
-	echo -e "\033[36m#  / ___)(_  _)/  \\ / ___)/ )( \\"
-	echo -e "#  \\___ \\  )( (  O )\\___ \\) __ ("
-	echo -e "#  (____/ (__) \\__/ (____/\\_)(_/\033[0m"
-	# echo -e "================================"
+
+elif [[ $(hostname) == "vve-T1700" ]]; then
+
+	# Work
+	echo ""
+	echo 	"                 ¯\_(ツ)_/¯"
+	# echo 	"==========================="
+
+	# echo -e "\033[36m ___  ____  _____  ___  _   _ ";
+	# echo 			"/ __)(_  _)(  _  )/ __)( )_( )";
+	# echo 			"\__ \  )(   )(_)( \__ \ ) _ ( ";
+	# echo -n 		"(___/ (__) (_____)(___/(_) (_)";
+	# echo -e "\033[0m"
+	# echo -e 		"=============================="
 	# cat ${HOME}/scripts/stosh_logo.txt
+
+	# Upd
+	source ~/scripts/upd.sh
+
+	# PSnext
+	source ~/scripts/psnext.sh
+
+	# Build machines relative
+	source ~/scripts/buildmachines.sh
+
+else
+
+	# Unknown
+	echo 	""
+	echo 	" Where am I ?? ლ(ಠ益ಠლ)"
+	# echo 	"======================="
+
 fi
 
-# Svn.sh
+# Binaires perso
 export PATH=$PATH:~/bin
-
-# Upd
-source ~/scripts/upd.sh
-
-# PSnext
-source ~/scripts/psnext.sh
-
-# Build machines relative
-source ~/scripts/buildmachines.sh
 
 # Start ssh-agent
 source ~/scripts/ssh-agent.sh
