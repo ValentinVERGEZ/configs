@@ -10,6 +10,7 @@ if [ "$test" = "" ]; then
       /bin/rm -f $HOME/scripts/tmp/agent.sh
    fi;
    # start a new agent
+   mkdir -p $HOME/scripts/tmp/
    /usr/bin/ssh-agent | $GREP -v echo >&$HOME/scripts/tmp/agent.sh
 fi;
 
