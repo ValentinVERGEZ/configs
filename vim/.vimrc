@@ -15,6 +15,9 @@
 " have made, as well as sanely reset options when re-sourcing .vimrc
 set nocompatible
 
+" Pathogen
+execute pathogen#infect()
+
 " Attempt to determine/se the type of a file based on its name and possibly its
 " contents. Use this to allow intelligent auto-indenting for each filetype,
 " and for plugins that are filetype specific.
@@ -264,3 +267,25 @@ nnoremap <C-L> :nohl<CR><C-L>
 " Display hidden characters
 set listchars=tab:▸\ ,eol:¬
 set list
+
+" Insert new line
+nmap <S-Enter> O<Esc>
+nmap <CR> o<Esc>
+
+" Bufferline and airline
+let g:bufferline_echo = 0
+let g:airline#extensions#bufferline#enabled = 0
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme = "luna"
+let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#tabline#buffer_nr_show = 1
+
+" Git-gutter
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+let g:gitgutter_max_signs = 4000
+
+" Change higlight for search
+highlight Search term=reverse cterm=underline ctermfg=235 ctermbg=159
+

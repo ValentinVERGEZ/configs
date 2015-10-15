@@ -196,3 +196,4 @@ git() {
   fi
 }
 
+alias clear="clear && source ~/.zshrc"
