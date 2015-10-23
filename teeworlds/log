@@ -1,0 +1,11 @@
+[56261d4d][server]: starting...
+[56261d4d][datafile]: loading. filename='maps/ctf1.map'
+[56261d4d][datafile]: allocsize=2088
+[56261d4d][datafile]: readsize=1864
+[56261d4d][datafile]: swaplen=1884
+[56261d4d][datafile]: item_size=1584
+[56261d4d][datafile]: loading done. datafile='maps/ctf1.map'
+[56261d4d][server]: maps/ctf1.map crc is 06b5f117
+[56261d4d][server]: server name is 'Firmware'
+[56261d4d][datafile]: loading data index=10 size=327 uncompressed=14000
+[56261d4d][server]: version 0.6 626fce9a778df4d4
