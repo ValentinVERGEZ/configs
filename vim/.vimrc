@@ -42,10 +42,8 @@ autocmd BufWinLeave * call clearmatches()
 
 " Custom Highlighting tags
 function! UpdateHighlightingFile()
-  silent exec "!echo -n 'syntax keyword Type '> types.vim"
-  silent exec "!ctags -R --languages=C,C++ --c++-kinds=cgstu  -o- ./ | cut -f1 | xargs echo >> types.vim"
-  "	exe 'so ' . 'types.vim'
-  "	syntax sync fromstart
+		silent exec "!rm -rf types.vim"
+		silent exec "!ctags -R --languages=C,C++ --c++-kinds=cgstu  -o- ./ | cut -f1 | xargs echo 'syntax keyword Type ' >> types.vim"
 endfunction
 
 " load the types.vim highlighting file, if it exists
@@ -89,12 +87,16 @@ noremap <silent> <F8> :call UpdateCall()<CR>
 noremap <silent> <F9> :NERDTreeToggle<CR>
 
 " TLIST
-let Tlist_Show_One_File = 1
-let Tlist_Auto_Highlight_Tag = 1
-let Tlist_Enable_Fold_Column = 0
-let Tlist_Compact_Format = 1
-let Tlist_Use_Right_Window = 1
-noremap <silent> <F2> :TlistToggle<CR>
+" let Tlist_Show_One_File = 1
+" let Tlist_Auto_Highlight_Tag = 1
+" let Tlist_Enable_Fold_Column = 0
+" let Tlist_Compact_Format = 1
+" let Tlist_Use_Right_Window = 1
+" noremap <silent> <F2> :TlistToggle<CR>
+
+" Tagbar
+let g:tagbar_usearrows = 1
+noremap <silent> <F10> :TagbarToggle<CR>
 
 " OmniCppComplete
 set omnifunc=syntaxcomplete#Complete " override built-in C omnicomplete with C++ OmniCppComplete plugin
@@ -288,4 +290,4 @@ let g:gitgutter_max_signs = 4000
 
 " Change higlight for search
 highlight Search term=reverse cterm=underline ctermfg=235 ctermbg=159
-
+set incsearch
