@@ -1,0 +1,22 @@
+#!/bin/bash
+
+## Config synchronisation script
+#  =============================
+#  TREE syncConf
+
+source syncConf.include
+
+## SET SUBDIRS
+SUBDIR[0]="scripts/"
+SUBDIR[1]="teeworlds/"
+SUBDIR[2]="terminator/"
+SUBDIR[3]="vim/"
+SUBDIR[4]="zsh/"
+
+
+# Echo commands instead of executing them if DRY is set to true
+DRY=FALSE
+
+
+## RUN SCRIPT
+main_tree $*

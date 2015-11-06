@@ -1,0 +1,24 @@
+#!/bin/bash
+
+## Config synchronisation script
+#  =============================
+#  LEAF syncConf
+
+source syncConf.include
+
+## SET BASE DIR
+BASE_DIR="$HOME"
+
+## SET OBJECTS
+OBJECT[0]=.zshrc
+OBJECT[1]=custom/
+OBJECT_PATH[1]=.oh-my-zsh/
+
+
+# Echo commands instead of executing them if DRY is set to true
+# DRY=TRUE
+
+
+## RUN SCRIPT
+main_leaf $*
+

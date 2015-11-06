@@ -1,0 +1,131 @@
+#!/bin/bash
+## Config synchronisation functions
+#  ================================
+
+
+## GLOBAL VARS
+declare -a SUBDIR
+SYNC_SCRIPT_FN="syncConf"
+
+declare -a OBJECT
+declare -a OBJECT_PATH
+declare -a REPO_OBJECT
+declare -a LOCAL_OBJECT
+BASE_DIR=
+SCRIPT_DIR=
+
+
+# Echo commands instead of executing them if DRY is set to true
+DRY=TRUE
+## DRY FUNCTION
+dry()
+{
+	if [[ $DRY = "TRUE" ]]; then
+		echo -e " *\t$*"
+	else
+		$*
+	fi
+}
+
+
+## USAGE FUNCTION
+usage()
+{
+	echo "Usage: $0 option"
+	echo ""
+	echo "Options:"
+	echo -e "\tput - Push all your configurations files from your repository"
+	echo -e "\tget - Pull the existing configurations files into your repository"
+}
+
+
+## SET GLOBAL VARS FUNCTIONS
+set_global_vars_leaf()
+{
+	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[${#BASH_SOURCE[@]}-1]}" )" && pwd )/"
+
+	for i in ${!OBJECT[@]};do
+		REPO_OBJECT[i]="$SCRIPT_DIR/${OBJECT[i]}"
+		LOCAL_OBJECT[i]="$BASE_DIR/${OBJECT_PATH[i]}/${OBJECT[i]}"
+	done
+}
+
+set_global_vars_tree()
+{
+	SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )/"
+}
+
+
+## SYNC FUNCTIONS
+sync_tree()
+{
+	for subdir in ${SUBDIR[*]}; do
+		CMD="$SCRIPT_DIR/$subdir/$SYNC_SCRIPT_FN $*"
+		dry bash $CMD
+	done
+}
+
+sync_leaf()
+{
+	declare -a SRC=("${!1}")
+	declare -a DST=("${!2}")
+
+	for i in ${!SRC[@]};do
+		if [[ -d ${SRC[i]} ]];then
+			dry mkdir -p ${DST[i]}
+
+			if [[ ${SRC[i]} -nt ${DST[i]} ]];then
+				dry cp -r "${SRC[i]}/*" "${DST[i]}/."
+				dry touch ${DST[i]}
+			else
+				echo -e " **\tINFO: ${SRC[i]} already up to date"
+			fi
+		elif [[ -f ${SRC[i]} ]];then
+			if [[ ${SRC[i]} -nt ${DST[i]} ]];then
+				DST_PATH=$(dirname ${DST[i]})
+				dry mkdir -p $DST_PATH
+				dry cp ${SRC[i]} ${DST[i]}
+			else
+				echo -e " **\tINFO: ${SRC[i]} already up to date"
+			fi
+		else
+			echo -e " ##\tERROR: ${SRC[i]} not found"
+		fi
+	done
+}
+
+
+## MAIN FUNCTIONS
+main_tree()
+{
+	echo "SCRIPT TREE: $0"
+
+	set_global_vars_tree
+
+	if [[ "$2" = "-f" ]];then
+		DRY=FALSE
+	fi
+
+	case "$1" in
+		"put" | "get" ) sync_tree $* ;;
+		* ) usage ;;
+	esac
+}
+
+main_leaf()
+{
+	echo "SCRIPT LEAF: $0"
+
+	set_global_vars_leaf
+
+	if [[ "$2" = "-f" ]];then
+		DRY=FALSE
+	fi
+
+	case "$1" in
+		"put" ) sync_leaf REPO_OBJECT[@] LOCAL_OBJECT[@] ;;
+		"get" ) sync_leaf LOCAL_OBJECT[@] REPO_OBJECT[@] ;;
+		* ) usage ;;
+	esac
+}
+
