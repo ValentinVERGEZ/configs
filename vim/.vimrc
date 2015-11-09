@@ -17,6 +17,7 @@ set nocompatible
 
 " Pathogen
 execute pathogen#infect()
+Helptags
 
 " Attempt to determine/se the type of a file based on its name and possibly its
 " contents. Use this to allow intelligent auto-indenting for each filetype,
@@ -267,8 +268,16 @@ nnoremap <C-L> :nohl<CR><C-L>
 
 "------------------------------------------------------------
 " Display hidden characters
-set listchars=tab:▸\ ,eol:¬
+set listchars=tab:▸-,eol:¬
+set listchars=tab:\|\ ,eol:¬
 set list
+highlight SpecialKey ctermfg=59 ctermbg=236
+highlight NonText ctermfg=59 ctermbg=236
+highlight SpecialKey ctermfg=59 ctermbg=234
+highlight NonText ctermfg=59 ctermbg=237
+
+		" Test  
+	" Test
 
 " Insert new line
 nmap <S-Enter> O<Esc>
