@@ -30,16 +30,32 @@ syntax on
 
 colorscheme monokai
 
-" Extra whitespace
+" Extra whitespace and mixed indent
 highlight ExtraWhitespace ctermbg=red guibg=red
+highlight MixedIndent ctermbg=red guibg=red
 " Make sure colorscheme commands do not erase our group
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight MixedIndent ctermbg=red guibg=red
 " Show trailing whitespace:
 match ExtraWhitespace /\s\+$/
 autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" Autoremove trailing whitespace:
+	" autocmd BufWritePre * :%s/\s\+$//e
+" Show mixed ident:
+" 2match MixedIndent / \+\ze\t\|\t\zs \+/
+" autocmd BufWinEnter * 2match MixedIndent / \+\ze\t\|\t\zs \+/
+" autocmd InsertEnter * 2match MixedIndent / \+\ze\t\|\t\zs \+/
+" autocmd InsertLeave * 2match MixedIndent / \+\ze\t\|\t\zs \+/
+" Only <space><tab> mixed indent (not <tab><space>)
+2match MixedIndent / \+\ze\t/
+autocmd BufWinEnter * 2match MixedIndent / \+\ze\t/
+autocmd InsertEnter * 2match MixedIndent / \+\ze\t/
+autocmd InsertLeave * 2match MixedIndent / \+\ze\t/
+
 autocmd BufWinLeave * call clearmatches()
+
 
 " Custom Highlighting tags
 function! UpdateHighlightingFile()
@@ -151,7 +167,7 @@ augroup END
 " for keeping undo history after closing Vim entirely. Vim will complain if you
 " try to quit without saving, and swap files will keep you safe if your computer
 " crashes.
-" set hidden
+set hidden
 
 " Note that not everyone likes working this way (with the hidden option).
 " Alternatives include using tabs or split windows instead of re-using the same
@@ -300,3 +316,11 @@ let g:gitgutter_max_signs = 4000
 " Change higlight for search
 highlight Search term=reverse cterm=underline ctermfg=235 ctermbg=159
 set incsearch
+
+" Syntastic
+let g:syntastic_c_checkers = ["cppcheck"]
+let g:syntastic_cpp_checkers = ["cppcheck"]
+
+" Buffer navigation
+nmap <C-a> :bnext<CR>
+nmap <C-e> :bprev<CR>
