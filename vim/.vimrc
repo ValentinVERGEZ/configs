@@ -135,6 +135,7 @@ noremap <silent> <F7> :cnext<CR>
 set pastetoggle=<F3>
 
 let g:load_doxygen_syntax=1
+let g:C_UseTool_doxygen = 'yes'
 
 
 " vim -b : edit binary using xxd-format!
@@ -324,3 +325,6 @@ let g:syntastic_cpp_checkers = ["cppcheck"]
 " Buffer navigation
 nmap <C-a> :bnext<CR>
 nmap <C-e> :bprev<CR>
+
+let mapleader = "²"
+let g:C_MapLeader = "²"

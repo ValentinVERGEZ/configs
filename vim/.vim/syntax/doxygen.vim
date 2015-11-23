@@ -291,7 +291,7 @@ call s:DxyCreateSmallSpecial('a', 'Argument')
 call s:DxyCreateSmallSpecial('ref', 'Ref')
 delfun s:DxyCreateSmallSpecial
 
-syn match doxygenSmallSpecial contained +[@\\]\(\<[pcbea]\>\|\<em\>\|\<ref\>\|\<link\>\|f\$\|[$\\&<>#]\)\@=+ nextgroup=doxygenOtherLink,doxygenHyperLink,doxygenHashLink,doxygenFormula,doxygenSymbol,doxygenSpecial.*Word
+syn match doxygenSmallSpecial contained +[@\\]\(\<[pcbean]\>\|\<em\>\|\<ref\>\|\<link\>\|f\$\|[$\\&<>#]\)\@=+ nextgroup=doxygenOtherLink,doxygenHyperLink,doxygenHashLink,doxygenFormula,doxygenSymbol,doxygenSpecial.*Word
 
 " Now for special characters
 syn match doxygenSpecial contained +[@\\]\(\<[pcbea]\>\|\<em\>\|\<ref\|\<link\>\>\|\<f\$\|[$\\&<>#]\)\@!+ nextgroup=doxygenParam,doxygenRetval,doxygenBriefWord,doxygenBold,doxygenBOther,doxygenOther,doxygenOtherTODO,doxygenOtherWARN,doxygenOtherBUG,doxygenPage,doxygenGroupDefine,doxygenCodeRegion,doxygenVerbatimRegion,doxygenDotRegion
@@ -310,7 +310,7 @@ syn keyword doxygenRetval contained retval throw exception nextgroup=doxygenPara
 
 " Match one line identifiers.
 syn keyword doxygenOther contained addindex anchor
-\ dontinclude endhtmlonly endlatexonly showinitializer hideinitializer
+\ details dontinclude endhtmlonly endlatexonly showinitializer hideinitializer
 \ example htmlonly image include ingroup internal latexonly line
 \ overload relates relatesalso sa skip skipline
 \ until verbinclude version addtogroup htmlinclude copydoc dotfile
@@ -323,11 +323,15 @@ syn match doxygenCodeRegionSpecial contained +[\\@]\(endcode\>\)\@=+
 syn region doxygenVerbatimRegion contained matchgroup=doxygenOther start=+\<verbatim\>+ matchgroup=doxygenOther end=+[\\@]\@<=\<endverbatim\>+ contains=doxygenVerbatimRegionSpecial,doxygenContinueComment,doxygenErrorComment
 syn match doxygenVerbatimRegionSpecial contained +[\\@]\(endverbatim\>\)\@=+
 
-let b:doxygen_syntax_save=b:current_syntax
-unlet b:current_syntax
+if exists('b:current_syntax')
+  let b:doxygen_syntax_save=b:current_syntax
+  unlet b:current_syntax
+endif
 syn include @Dotx syntax/dot.vim
-let b:current_syntax=b:doxygen_syntax_save
-unlet b:doxygen_syntax_save
+if exists('b:doxygen_syntax_save')
+  let b:current_syntax=b:doxygen_syntax_save
+  unlet b:doxygen_syntax_save
+endif
 syn region doxygenDotRegion contained matchgroup=doxygenOther start=+\<dot\>+ matchgroup=doxygenOther end=+[\\@]\@<=\<enddot\>+ contains=doxygenDotRegionSpecial,doxygenErrorComment,doxygenContinueComment,@Dotx
 syn match doxygenDotRegionSpecial contained +[\\@]\(enddot\>\)\@=+
 
@@ -339,7 +343,7 @@ syn keyword doxygenBOther contained class enum file fn mainpage interface
 syn keyword doxygenOther contained par nextgroup=doxygenHeaderLine
 syn region doxygenHeaderLine start=+.+ end=+^+ contained skipwhite nextgroup=doxygenSpecialMultilineDesc
 
-syn keyword doxygenOther contained details arg author date deprecated li return see invariant note post pre remarks since test nextgroup=doxygenSpecialMultilineDesc
+syn keyword doxygenOther contained arg author date deprecated details li return see invariant note post pre remarks since test nextgroup=doxygenSpecialMultilineDesc
 syn keyword doxygenOtherTODO contained todo attention nextgroup=doxygenSpecialMultilineDesc
 syn keyword doxygenOtherWARN contained warning nextgroup=doxygenSpecialMultilineDesc
 syn keyword doxygenOtherBUG contained bug nextgroup=doxygenSpecialMultilineDesc

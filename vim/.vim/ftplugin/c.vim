@@ -31,10 +31,12 @@ inoremap  <buffer>  /*<CR>  /*<CR><CR>/<Esc>kA<Space>
 "
 "-------------------------------------------------------------------------------
 " additional mapping : complete a classical Doxygen multi-line comment: 
-"                      '/*!<CR>' =>  /*!
-"                                     */
+"                      '/*!' =>      /*!
+"                                    * |
+"                                    */
 "-------------------------------------------------------------------------------
-inoremap  <buffer>  /*!<CR>  /*!<CR>/<Esc>kA<Space>
+"
+inoremap  <buffer>  /*!  /*!<CR>/<Esc>kA<Space>
 "
 "-------------------------------------------------------------------------------
 " additional mapping : {<CR> always opens a block
