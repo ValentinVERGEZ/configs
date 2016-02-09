@@ -10,10 +10,17 @@ if [ "$test" = "" ]; then
       /bin/rm -f $HOME/scripts/tmp/agent.sh
    fi;
    # start a new agent
-   mkdir -p $HOME/scripts/tmp/
    /usr/bin/ssh-agent | $GREP -v echo >&$HOME/scripts/tmp/agent.sh
 fi;
 
 test -e $HOME/scripts/tmp/agent.sh && source $HOME/scripts/tmp/agent.sh
+
+
+
+if [ "$test" = "" ]; then
+   # A new agent was started, add keys
+   echo -e "\033[36m * ssh-add needed\033[0m"
+   ssh-add
+fi;
 
 alias kagent="kill -9 $SSH_AGENT_PID"

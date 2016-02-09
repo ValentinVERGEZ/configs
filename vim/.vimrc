@@ -64,9 +64,9 @@ function! UpdateHighlightingFile()
 endfunction
 
 " load the types.vim highlighting file, if it exists
-autocmd BufRead,BufNewFile *.[ch] if filereadable('types.vim')
-autocmd BufRead,BufNewFile *.[ch]   exe 'so ' . 'types.vim'
-autocmd BufRead,BufNewFile *.[ch] endif
+"autocmd BufRead,BufNewFile *.[ch] if filereadable('types.vim')
+"autocmd BufRead,BufNewFile *.[ch]   exe 'so ' . 'types.vim'
+"autocmd BufRead,BufNewFile *.[ch] endif
 
 " Cscope handling
 if filereadable("cscope.out")
@@ -101,7 +101,7 @@ endfunction
 noremap <silent> <F8> :call UpdateCall()<CR>
 
 " NERDTree
-noremap <silent> <F9> :NERDTreeToggle<CR>
+noremap <silent> <F7> :NERDTreeToggle<CR>
 
 " TLIST
 " let Tlist_Show_One_File = 1
@@ -236,7 +236,7 @@ set visualbell
 " set t_vb=
 
 " Enable use of the mouse for all modes
-set mouse=a
+" set mouse=a
 
 " Set the command window height to 2 lines, to avoid many cases of having to
 " "press <Enter> to continue"
@@ -328,3 +328,9 @@ nmap <C-e> :bprev<CR>
 
 let mapleader = "²"
 let g:C_MapLeader = "²"
+
+" set foldcolumn=4
+set colorcolumn=80,100,120
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
