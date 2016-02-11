@@ -5,3 +5,4 @@ git clone https://github.com/majutsushi/tagbar.git
 git clone https://github.com/bling/vim-airline
 git clone https://github.com/airblade/vim-gitgutter.git
 git clone https://github.com/tomasr/molokai
+git clone https://github.com/NLKNguyen/c-syntax.vim
